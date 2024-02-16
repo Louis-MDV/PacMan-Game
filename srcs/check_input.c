@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/15 13:10:38 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:43:53 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_fileformat(char *str)
 		return (1);
 	else
 	{
-		write(1, "Wrong input format", 18);
+		write(1, "Error\nWrong input format", 24);
 		exit(0);
 	}
 }
@@ -33,10 +33,8 @@ int	check_rectangular(char *filename, t_data *game)
 	int		fd;
 	char	*line;
 
-	game->height = 1;
+	game->height = 1; // height 1 cause line38
 	fd = open_map(filename);
-	if (fd < 0)
-		exit(0);
 	line = get_next_line(fd);
 	game->width = ft_strlen(line) - 1; //-1 cause cont dount '\0'
 	free(line);
@@ -49,13 +47,11 @@ int	check_rectangular(char *filename, t_data *game)
 		free(line);
 	}
 	close(fd);
-	printf("width = %d\n", game->width);
-	printf("height = %d\n", game->height);
 	if (game->width != game->height)
 		return (1);
 	else
 	{
-		write(1, "Map not rectangular!\n", 21);
+		write(1, "Error\nMap not rectangular!\n", 27);
 		exit(0);
 	}
 }
@@ -66,40 +62,74 @@ int	check_closed(t_data *game)
 	int	w;
 
 	h = 0;
-	w = 0;
 	while (h < game->height - 1)
 	{
 		w = 0;
 		while (w < game->width - 1)
 		{
-			if (game->grid[0][w] != '1' || game->grid[game->height
-				- 1][w] != '1')
+			if ((game->grid[0][w] != '1' || game->grid[game->height
+					- 1][w] != '1') || (h != 0 && h != game->height - 1
+					&& game->grid[h][0] != '1' && game->grid[h][game->width
+					- 1] != '1'))
 			{
 				free_grid(game);
-				printf("not closed");
+				write(1, "Error\nMap not closed!\n", 24);
 				exit(0);
-			}
-			if (h != 0 && h != game->height - 1)
-			{
-				if (game->grid[h][0] != '1' && game->grid[h][game->width
-					- 1] != '1')
-				{
-					free_grid(game);
-					printf("not closed");
-					exit(0);
-				}
 			}
 			w++;
 		}
 		h++;
 	}
-	printf("closed map");
 	return (1);
 }
 
+int	check_elements(t_data *game)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < game->height - 1)
+	{
+		x = 0;
+		while (x < game->width - 1)
+		{
+			if (game->grid[y][x] == 'P')
+			{
+				game->posx_p = x;
+				game->posy_p = y;
+				game->p++;
+				// printf("%d\n", game->posx_p);
+				// printf("%d\n", game->posy_p);
+			}
+			if (game->grid[y][x] == 'C')
+				game->c++;
+			if (game->grid[y][x] == 'E')
+			{
+				game->posx_e = x;
+				game->posy_e = y;
+				game->e++;
+				// printf("%d\n", game->posx_e);
+				// printf("%d\n", game->posy_e);
+			}
+			x++;
+		}
+		y++;
+	}
+	if (game->p != 1 || game->e != 1 || game->c <= 0)
+		return (printf("Error\nMap has no player or no collectibles or no exit!\n"),0);
+	return (1);
+}
+
+int	flood_fill(t_data *game)
+{
+	
+}
+
+
+
 // The map must contain 1 exit, at least 1 collectible,
-//	and1 starting position to be valid.
+//	and1 starting position to be valid.							OK
 // rectangular													OK
-// closed / surrounded by walls
+// closed / surrounded by walls									OK
 // 1 valid path
-// no dups chars

@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:41:12 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/15 11:41:25 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:21:48 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char	**init_grid(t_data *game)
 // fill grid with all elements of map
 void	fillgrid(char *filename, t_data *game)
 {
-	int fd;
-	int i;
-	char *line;
+	int		fd;
+	int		i;
+	char	*line;
 
 	i = 0;
 	fd = open_map(filename);
