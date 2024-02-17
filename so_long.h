@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/16 15:04:41 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:10:18 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char		**init_grid(t_data *game);
 void		fillgrid(char *filename, t_data *game);
 int			check_closed(t_data *game);
 int			check_elements(t_data *game);
-
+int			parse(t_data *game, char *filename);
+int			flood_fill(char **map, int rows, int cols, int start_x, int start_y, int c, int c_flag, int exit_flag);
 // utils
 int			open_map(char *filename);
 void		free_grid(t_data *game);

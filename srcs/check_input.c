@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/16 15:43:53 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:12:15 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	check_fileformat(char *str)
 		return (1);
 	else
 	{
-		write(1, "Error\nWrong input format", 24);
-		exit(0);
+		printf("Error\nWrong input format\n");
+		return (0);
 	}
 }
 
@@ -52,7 +52,7 @@ int	check_rectangular(char *filename, t_data *game)
 	else
 	{
 		write(1, "Error\nMap not rectangular!\n", 27);
-		exit(0);
+		return (0);
 	}
 }
 
@@ -73,7 +73,7 @@ int	check_closed(t_data *game)
 					- 1] != '1'))
 			{
 				free_grid(game);
-				write(1, "Error\nMap not closed!\n", 24);
+				printf("Error\nMap not closed!\n");
 				exit(0);
 			}
 			w++;
@@ -99,8 +99,6 @@ int	check_elements(t_data *game)
 				game->posx_p = x;
 				game->posy_p = y;
 				game->p++;
-				// printf("%d\n", game->posx_p);
-				// printf("%d\n", game->posy_p);
 			}
 			if (game->grid[y][x] == 'C')
 				game->c++;
@@ -109,8 +107,6 @@ int	check_elements(t_data *game)
 				game->posx_e = x;
 				game->posy_e = y;
 				game->e++;
-				// printf("%d\n", game->posx_e);
-				// printf("%d\n", game->posy_e);
 			}
 			x++;
 		}
@@ -121,15 +117,47 @@ int	check_elements(t_data *game)
 	return (1);
 }
 
-int	flood_fill(t_data *game)
+int flood_fill(char **map, int rows, int cols, int x, int y, int c, int c_flag, int exit_flag)
 {
-	
+    if (x < 0 || x >= cols || y < 0 || y >= rows || map[y][x] == '1') //if out of map or wall, return 0
+        return (0);
+    else if (map[y][x] == 'C') //if collectable, increment flag
+        c_flag++;
+    else if (map[y][x] == 'E') //if exit, set exit_flag
+        exit_flag = 1;
+    map[y][x] = 'V';  // Mark the current position as visited
+
+    if (c_flag == c && exit_flag)
+        return (1);
+
+    // Recursively call in all four directions
+    return (
+        flood_fill(map, rows, cols, x - 1, y, c, c_flag, exit_flag) ||
+        flood_fill(map, rows, cols, x + 1, y, c, c_flag, exit_flag) ||
+        flood_fill(map, rows, cols, x, y - 1, c, c_flag, exit_flag) ||
+        flood_fill(map, rows, cols, x, y + 1, c, c_flag, exit_flag)
+    );
 }
 
-
-
-// The map must contain 1 exit, at least 1 collectible,
-//	and1 starting position to be valid.							OK
-// rectangular													OK
-// closed / surrounded by walls									OK
-// 1 valid path
+int	parse(t_data *game, char *filename)
+{
+	game = malloc(sizeof(t_data));
+	if(!game)
+		exit(0);
+	if(	check_fileformat(filename) && check_rectangular(filename, game))
+			fillgrid(filename, game);
+	else
+	{
+		free_grid(game);
+		exit(0);
+	}
+	if(	check_closed(game)
+		&& check_elements(game)
+		&& flood_fill(game->grid, game->height, game->width, game->posx_p, game->posy_p, game->c, 0, 0))
+		return (1);
+	else
+	{
+		free_grid(game);
+		return(0);
+	}
+}
