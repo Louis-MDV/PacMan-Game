@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/17 23:10:18 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:20:05 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ typedef struct s_data
 	int		posy_e;
 	int		width;
 	int		height;
-	int		p; // player
-	int		e; // exit
-	int 	c;  // collectible
+	int		p; 		// player
+	int		e; 		// exit
+	int 	c;  	// collectible
+	int		c_flag; //collectibles collected
+	int 	exit_flag;
+	int		count_v;
 	char	**grid;
 }			t_data;
 
@@ -42,10 +45,14 @@ char		**init_grid(t_data *game);
 void		fillgrid(char *filename, t_data *game);
 int			check_closed(t_data *game);
 int			check_elements(t_data *game);
-int			parse(t_data *game, char *filename);
-int			flood_fill(char **map, int rows, int cols, int start_x, int start_y, int c, int c_flag, int exit_flag);
+void			parse(t_data *game, char *filename);
+void 		flood_fill(t_data *game, int x, int y, char **grid);
+
 // utils
 int			open_map(char *filename);
 void		free_grid(t_data *game);
 void		init_struct(t_data *game);
+void		print_map(t_data *game);
+void		free_exit(t_data *game);
+
 #endif // SO_LONG.H

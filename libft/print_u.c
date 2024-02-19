@@ -1,25 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print_u.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 16:33:21 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/19 22:52:58 by lmerveil         ###   ########.fr       */
+/*   Created: 2023/12/01 16:44:24 by lmerveil          #+#    #+#             */
+/*   Updated: 2024/02/19 21:43:14 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	nblen(unsigned long int nb)
 {
-	t_data	game;
+	int	numdigits;
 
-	if (ac != 2)
+	numdigits = 0;
+	if (nb == 0)
+		numdigits++;
+	while (nb > 0)
 	{
-		ft_printf("Error\nWrong number of arguments!\n");
-		return (0);
+		nb = nb / 10;
+		numdigits++;
 	}
-	parse(&game, av[1]);		//exits if error else void
+	return (numdigits);
+}
+
+int	print_u(unsigned int n)
+{
+	long int	nb;
+
+	nb = n;
+	if (nb < 0)
+	{
+		print_c('1');
+		return (1);
+	}
+	if (nb >= 0 && nb <= 9)
+		print_c(('0' + nb));
+	else
+	{
+		print_u(nb / 10);
+		print_u(nb % 10);
+	}
+	return (nblen(nb));
 }

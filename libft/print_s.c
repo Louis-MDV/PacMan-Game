@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print_s.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 16:33:21 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/19 22:52:58 by lmerveil         ###   ########.fr       */
+/*   Created: 2023/11/24 11:42:19 by louismdv          #+#    #+#             */
+/*   Updated: 2024/02/19 21:43:17 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	print_s(const char *str)
 {
-	t_data	game;
-
-	if (ac != 2)
+	if (str == NULL)
 	{
-		ft_printf("Error\nWrong number of arguments!\n");
-		return (0);
+		write(1, "(null)", 6);
+		return (6);
 	}
-	parse(&game, av[1]);		//exits if error else void
+	else
+	{
+		write(1, str, ft_strlen(str));
+		return (ft_strlen(str));
+	}
 }

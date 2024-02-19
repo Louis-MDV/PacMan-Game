@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/09 13:53:31 by lmerveil          #+#    #+#              #
-#    Updated: 2024/02/15 11:41:36 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/19 20:28:41 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,14 @@ MLX_PATH	=	./minilibx-linux
 MLX_FILE	= 	libmlx.a
 MLX_LIB		=	$(MLX_PATH)/$(MLX_FILE)
 
-SRCS		 = 	$(addsuffix .c,		\
-				$(addprefix srcs/, 	\
-					check_input		\
-					utils			\
-					init_map		\
-				)					\
-				main				\
+SRCS		 = 	$(addsuffix .c,			\
+				$(addprefix srcs/, 		\
+				$(addprefix parsing_,	\
+					check_input			\
+					utils				\
+					init_map			\
+				))						\
+				main					\
 				)
 
 OFILES		= 	$(SRCS:.c=.o)

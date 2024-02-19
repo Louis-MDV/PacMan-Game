@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print_p.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 16:33:21 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/19 22:52:58 by lmerveil         ###   ########.fr       */
+/*   Created: 2023/12/04 10:50:18 by lmerveil          #+#    #+#             */
+/*   Updated: 2024/02/19 21:43:20 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	print_p(long int *ptr)
 {
-	t_data	game;
+	int	numdigits;
 
-	if (ac != 2)
+	numdigits = 0;
+	if (!ptr)
 	{
-		ft_printf("Error\nWrong number of arguments!\n");
-		return (0);
+		print_s("(nil)");
+		return (5);
 	}
-	parse(&game, av[1]);		//exits if error else void
+	else
+	{
+		numdigits += print_s("0x");
+		numdigits += print_xx((unsigned long)ptr, 'x', 0);
+	}
+	return (numdigits);
 }

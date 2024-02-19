@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_map.c                                         :+:      :+:    :+:   */
+/*   parsing_init_map.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:41:12 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/16 15:21:48 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/19 21:58:40 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,9 @@ char	**init_grid(t_data *game)
 		exit(0);
 	while (i < game->height)
 	{
-		game->grid[i] = (char *)malloc(game->width * sizeof(char));
+		game->grid[i] = (char *)malloc(game->width + 1 * sizeof(char));
 		if (!game->grid[i])
-		{
-			free_grid(game);
-			exit(0);
-		}
+			free_exit(game);
 		i++;
 	}
 	return (game->grid);
@@ -49,7 +46,7 @@ void	fillgrid(char *filename, t_data *game)
 	while (i < game->height)
 	{
 		line = get_next_line(fd);
-		ft_strlcpy(game->grid[i], line, game->width);
+		ft_strlcpy(game->grid[i], line, game->width + 1);
 		free(line);
 		i++;
 	}

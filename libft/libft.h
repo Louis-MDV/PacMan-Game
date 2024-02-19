@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:33:30 by louismdv          #+#    #+#             */
-/*   Updated: 2024/02/13 15:11:38 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:39:34 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 typedef struct s_list
 {
@@ -90,5 +91,14 @@ size_t				ft_strlcpy2(char *dst, const char *src, size_t size);
 char				*ft_strjoin2(char const *s1, char const *s2);
 size_t				ft_strcpy2(char *dst, const char *src);
 char				*extract_line(char *stash, ssize_t read_ptr, char *buff);
+
+//	PRINTF
+int					ft_printf(const char *format, ...);
+int					print_s(const char *str);
+int					print_c(const char c);
+int					print_xx(unsigned long nb, const char format, int numdigits);
+int					print_id(int nb);
+int					print_u(unsigned int n);
+int					print_p(long int *ptr);
 
 #endif // LIBFT.H
