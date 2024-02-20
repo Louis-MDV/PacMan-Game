@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/19 22:54:46 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:41:56 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_fileformat(char *str)
 	}
 }
 
-int	check_rectangular(char *filename, t_data *game)
+void	get_dimensions(char *filename, t_data *game)
 {
 	int		fd;
 	char	*line;
@@ -36,7 +36,7 @@ int	check_rectangular(char *filename, t_data *game)
 	game->height = 1; // height 1 cause line38
 	fd = open_map(filename);
 	line = get_next_line(fd);
-	game->width = ft_strlen(line) - 1; //-1 cause cont dount '\0'
+	game->width = ft_strlen(line) - 1; //1 cause cont dount '\0'
 	free(line);
 	line = "";
 	while (line != NULL)
@@ -47,12 +47,18 @@ int	check_rectangular(char *filename, t_data *game)
 		free(line);
 	}
 	close(fd);
+	ft_printf("height: %d\n",game->height);
+	ft_printf("width: %d\n", game->width);
+}
+
+int	check_rectangular(t_data *game)
+{
 	if (game->width != game->height)
 		return (1);
 	else
 	{
 		ft_printf("Error\nMap not rectangular!\n");
-		exit(0);
+		return(0);
 	}
 }
 
@@ -73,7 +79,6 @@ int	check_closed(t_data *game)
 					- 1] != '1'))
 			{
 				ft_printf("Error\nMap not closed!\n");
-				free_exit(game);
 				return(0);
 			}
 			w++;
@@ -118,7 +123,6 @@ int	check_elements(t_data *game)
 			else
 			{
 				ft_printf("Error\nUnknown element in map\n");
-				free_exit(game);
 				return(0);
 			}
 		}
@@ -127,7 +131,6 @@ int	check_elements(t_data *game)
 	if (game->p != 1 || game->e != 1 || game->c <= 0)
 	{
 		ft_printf("Error\nMap has no player or no collectibles or no exit!\n");
-		free_exit(game);
 		return(0);
 	}
 	return (1);
@@ -151,7 +154,7 @@ void flood_fill(t_data *game, int x, int y, char **grid)
 		// write(1,"exited\n", 7);
 	}
     grid[y][x] = 'V';
-	// print_map(game);
+	// print_map(game->grid, game->height, game->width);
 	// write(1, "\n",1);
 	
 	// Recursively call in all four directions
@@ -161,27 +164,21 @@ void flood_fill(t_data *game, int x, int y, char **grid)
     flood_fill(game, x, y + 1, grid);
 }
 
-void	parse(t_data *game, char *filename)
+int	parse(t_data *game, char *filename)
 {
 	game = malloc(sizeof(t_data));
 	if (!game)
 		exit(0);
 	init_struct(game);
-	if (check_fileformat(filename) && check_rectangular(filename, game))
-			fillgrid(filename, game);
-	if(check_closed(game) && check_elements(game))
-	{
-		char **map = game->grid;
-		flood_fill(game, game->posx_p, game->posy_p, map);
-		if(game->c_flag == game->c && game->exit_flag == 1)
-		{
-			print_map(game);
-			return ;
-		}
-	}
+	get_dimensions(filename, game);
+	if (check_fileformat(filename) && check_rectangular(game))
+		fillgrid(filename, game);
 	else
-	{
-		free_exit(game);
-		return ;
-	}
+		return (0);
+	if (check_closed(game) && check_elements(game))
+		flood_fill(game, game->posx_p, game->posy_p, game->parse_grid);
+	if (game->c_flag == game->c && game->exit_flag == 1)
+		return (1);
+	else
+		return (0);
 }

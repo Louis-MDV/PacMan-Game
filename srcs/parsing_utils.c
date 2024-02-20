@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/19 22:45:46 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:15:17 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ int	open_map(char *filename)
 	if (fd < 0)
 		return (0);
 	return (fd);
-}
-
-void	free_grid(t_data *game)
-{
-	int	i;
-	
-	i = 0;
-	while (i < game->height - 1)
-	{
-		free(game->grid[i]);
-		i++;
-	}
 }
 
 void	init_struct(t_data *game)
@@ -50,28 +38,56 @@ void	init_struct(t_data *game)
 	game->count_v	= 0;
 }
 
-void	free_exit(t_data *game)
+void	free_grid(char **grid, t_data *game)
 {
-	free_grid(game);
+	int	i;
+	
+	i = 0;
+	while (i < game->height - 1)
+	{
+		free(grid[i]);
+		i++;
+	}
+}
+
+void	free_struct(t_data *game)
+{
+	free_grid(game->grid, game);
+	free_grid(game->parse_grid, game);
 	free(game);
 }
 
-void	print_map(t_data *game)
+void	print_map(char **map, int height, int width)
 {
 	int x;
 	int y;
 
 	x = 0;
 	y = 0;
-	while(y < game->height)
+	while(y < height)
 	{
 		x = 0;
-		while(x < game->width)
+		while(x < width)
 		{
-			ft_printf("%c", game->grid[y][x]);
+			ft_printf("%c", map[y][x]);
 			x++;
 		}
 		ft_printf("\n");
 		y++;
 	}
+}
+
+char	**dup_grid(t_data *game)
+{
+	int		y;
+	char	**dup_grid;
+
+	y = 0;
+	dup_grid = NULL;
+	while (y < game->height)
+	{
+		dup_grid[y] = ft_strdup(game->grid[y]);
+		y++;
+	}
+	return (dup_grid);
 }
