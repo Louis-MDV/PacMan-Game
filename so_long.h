@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 14:58:18 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:10:31 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 typedef struct s_data
 {
+	int		fd;
 	int		posx_p;
 	int		posy_p;
 	int		posx_e;
@@ -40,20 +41,20 @@ typedef struct s_data
 }			t_data;
 
 // format check
-int			check_fileformat(char *str, t_data *game);
-int			check_rectangular(t_data *game);
-void		get_dimensions(char *filename, t_data *game);
+void		check_fileformat(char *str, t_data *game);
+void		get_dimensions_check_empty(t_data *game);
+void		check_rectangular(char *filename, t_data *game);
 char		**init_grid(char **grid, t_data *game);
 void		fillgrid(char *filename, t_data *game);
-int			check_closed(t_data *game);
-int			check_elements(t_data *game);
+void		check_closed(t_data *game);
+void		check_elements(t_data *game);
 t_data		*parse(char *filename);
 void 		flood_fill(t_data *game, int x, int y, char **grid);
 
 // utils
-int			open_map(char *filename);
+int			open_map(char *filename, t_data *game);
 void		free_grid(char **grid, int height);
-void		init_struct(t_data *game);
+void		init_struct(char *filename, t_data *game);
 void		print_map(char **map, int height, int width);
 void		free_struct(t_data *game);
 char		**dup_grid(t_data *game);

@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:41:12 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 15:21:59 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:01:02 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,25 @@ void	fillgrid(char *filename, t_data *game)
 	char	*line;
 
 	i = 0;
-	fd = open_map(filename);
-	game->grid = init_grid(game->grid, game);
-	game->parse_grid = init_grid(game->parse_grid, game);
+	fd = open_map(filename, game);
+	game->grid = (char **)malloc(game->height * sizeof(char *));
+	game->parse_grid = (char **)malloc(game->height * sizeof(char *));
+	if (!game->grid || !game->parse_grid)
+		free_struct(game);
 	while (i < game->height)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(game->fd);
 		if (line == NULL)
 			break ;
 		game->grid[i] = ft_strdup(line);
 		game->parse_grid[i] = ft_strdup(line);
 		if (!game->grid[i] || !game->parse_grid[i])
 		{
+			close(fd);
 			free_struct(game);
-		close(fd);
-		exit(0);}
+		}
+		free(line);
 		i++;
 	}  
-	close(fd), free(line);
+	close(fd);
 }

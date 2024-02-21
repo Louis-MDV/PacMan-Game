@@ -6,24 +6,25 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 15:17:20 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:49:44 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	open_map(char *filename)
+int	open_map(char *filename, t_data *game)
 {
 	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (ft_printf("Error\nUnknown file.\n"), exit(0), 0);
+		return (ft_printf("Error\nUnknown file.\n"), free(game), exit(0), 0);
 	return (fd);
 }
 
-void	init_struct(t_data *game)
+void	init_struct(char *filename, t_data *game)
 {
+	game->fd		= open_map(filename, game);
 	game->width 	= 0;
 	game->height 	= 0;
 	game->p 		= 0;
