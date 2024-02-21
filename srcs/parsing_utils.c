@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/20 13:15:17 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:44:21 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,23 @@ void	init_struct(t_data *game)
 	game->count_v	= 0;
 }
 
-void	free_grid(char **grid, t_data *game)
+void	free_grid(char **grid, int height)
 {
 	int	i;
 	
 	i = 0;
-	while (i < game->height - 1)
+	while (i < height - 1)
 	{
 		free(grid[i]);
 		i++;
 	}
+	free(grid);
 }
 
 void	free_struct(t_data *game)
 {
-	free_grid(game->grid, game);
-	free_grid(game->parse_grid, game);
+	free_grid(game->grid, game->height);
+	free_grid(game->parse_grid, game->height);
 	free(game);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/20 13:33:33 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:44:12 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 }			t_data;
 
 // format check
-int			check_fileformat(char *str);
+int			check_fileformat(char *str, t_data *game);
 int			check_rectangular(t_data *game);
 void		get_dimensions(char *filename, t_data *game);
 char		**init_grid(char **grid, t_data *game);
@@ -52,7 +52,7 @@ void 		flood_fill(t_data *game, int x, int y, char **grid);
 
 // utils
 int			open_map(char *filename);
-void		free_grid(char **grid, t_data *game);
+void		free_grid(char **grid, int height);
 void		init_struct(t_data *game);
 void		print_map(char **map, int height, int width);
 void		free_struct(t_data *game);

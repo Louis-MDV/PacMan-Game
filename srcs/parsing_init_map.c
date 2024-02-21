@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:41:12 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/20 13:43:42 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:09:09 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 // 2.alloc size for
 char	**init_grid(char **grid, t_data *game)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	grid = (char **)malloc(game->height * sizeof(char *));
 	if (!grid)
 		exit(0);
-	while (i < game->height)
-	{
-		grid[i] = (char *)malloc(game->width + 1 * sizeof(char));
-		if (!grid[i])
-		{
-			free_grid(grid, game);
-			exit(0);
-		}
-		i++;
-	}
+	// while (i < game->height)
+	// {
+	// 	grid[i] = (char *)malloc(game->width + 1 * sizeof(char));
+	// 	if (!grid[i])
+	// 	{
+	// 		free_grid(grid, game);
+	// 		exit(0);
+	// 	}
+	// 	i++;
+	// }
 	return (grid);
 }
 
@@ -50,11 +50,23 @@ void	fillgrid(char *filename, t_data *game)
 	while (i < game->height)
 	{
 		line = get_next_line(fd);
-		ft_strlcpy(game->grid[i], line, game->width + 1);
-		ft_strlcpy(game->parse_grid[i], line, game->width + 1);
+		if (line == NULL)
+			break;
+		game->grid[i] = ft_strdup(line);
+		game->parse_grid[i]  = ft_strdup(line);
 		free(line);
+		if(!game->grid[i] || !game->parse_grid[i])
+		{
+			ft_printf("Error: Memory allocation failure for grid[%d]\n", i);
+			free_struct(game);
+			exit (0);
+		}
+		printf("%d\n", i);
 		i++;
 	}
 	close(fd);
+
 	// print_map(game->parse_grid, game->height, game->width);
+	// ft_printf("\n");
+	// print_map(game->grid, game->height, game->width);
 }

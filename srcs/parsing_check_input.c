@@ -6,24 +6,20 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/20 13:41:56 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:01:15 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	check_fileformat(char *str)
+int	check_fileformat(char *str, t_data *game)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '.')
-		i++;
-	if (ft_strncmp(&str[i], ".ber\0", 5) == 0)
+	if (ft_strncmp(&str[ft_strlen(str) - 4], ".ber\0", 5) == 0)
 		return (1);
 	else
 	{
 		ft_printf("Error\nWrong input format\n");
+		free(game);
 		exit (0);
 	}
 }
@@ -58,32 +54,33 @@ int	check_rectangular(t_data *game)
 	else
 	{
 		ft_printf("Error\nMap not rectangular!\n");
-		return(0);
+		free(game);
+		exit (0);
 	}
 }
 
 int	check_closed(t_data *game)
 {
-	int	h;
-	int	w;
+	int	y;
+	int	x;
 
-	h = 0;
-	while (h < game->height - 1)
+	y = 0;
+	while (y < game->height - 1)
 	{
-		w = 0;
-		while (w < game->width - 1)
+		x = 0;
+		while (x < game->width - 1)
 		{
-			if ((game->grid[0][w] != '1' || game->grid[game->height
-					- 1][w] != '1') || (h != 0 && h != game->height - 1
-					&& game->grid[h][0] != '1' && game->grid[h][game->width
-					- 1] != '1'))
+			if ((game->grid[0][x] != '1' || game->grid[game->height - 1][x] != '1')
+					|| (y != 0 && y != game->height - 1
+					&& game->grid[y][0] != '1'
+					&& game->grid[y][game->width - 1] != '1'))
 			{
 				ft_printf("Error\nMap not closed!\n");
 				return(0);
 			}
-			w++;
+			x++;
 		}
-		h++;
+		y++;
 	}
 	return (1);
 }
@@ -171,14 +168,25 @@ int	parse(t_data *game, char *filename)
 		exit(0);
 	init_struct(game);
 	get_dimensions(filename, game);
-	if (check_fileformat(filename) && check_rectangular(game))
+	if (check_fileformat(filename, game) && check_rectangular(game)) //if fail exit + free game struct inside functs individually
 		fillgrid(filename, game);
-	else
-		return (0);
 	if (check_closed(game) && check_elements(game))
+	{
 		flood_fill(game, game->posx_p, game->posy_p, game->parse_grid);
-	if (game->c_flag == game->c && game->exit_flag == 1)
-		return (1);
+		if(game->c_flag == game->c && game->exit_flag == 1) //floodfill successful
+			return (1);
+		else
+		{
+			ft_printf("Error\nNo feasibe path to collectibles and exit\n");
+			free_struct(game);
+			exit (0);
+		}
+	}
 	else
-		return (0);
+	{
+		free_struct(game);
+		exit (0);
+	}
+	free_struct(game);
+	return (1);
 }
