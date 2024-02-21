@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/09 13:53:31 by lmerveil          #+#    #+#              #
-#    Updated: 2024/02/19 20:28:41 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/21 15:21:24 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,17 +47,17 @@ OFILES		= 	$(SRCS:.c=.o)
 
 all: 	$(NAME)
 
-lib:
+$(LIBFT_LIB):
 	make -sC $(LIBFT_PATH)
 	@cp $(LIBFT_LIB) ./$(NAME)
 	@echo "$(GREEN)[LIBFT Library]$(NC) copying to: $(YELLOW)$(NAME)$(NC)"
 
-mlx:
+$(MLX_LIB):
 	make -sC $(MLX_PATH)
 	@cp $(MLX_LIB) ./$(NAME)
 	@echo "$(GREEN)[MLX Library]$(NC) copying to: $(YELLOW)$(NAME)$(NC)"
 
-$(NAME): lib mlx $(OFILES)
+$(NAME): $(LIBFT_LIB) $(MLX_LIB) $(OFILES)
 	@$(CC) $(OFILES) $(MLXFLAGS) $(MLX_LIB) $(LIBFT_LIB) -o $(NAME)
 	@echo "$(GREEN)[EXECUTABLE]$(NC) created successfully: $(YELLOW)$(NAME)$(NC)"
 

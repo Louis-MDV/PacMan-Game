@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 10:44:12 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 14:58:18 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char		**init_grid(char **grid, t_data *game);
 void		fillgrid(char *filename, t_data *game);
 int			check_closed(t_data *game);
 int			check_elements(t_data *game);
-int			parse(t_data *game, char *filename);
+t_data		*parse(char *filename);
 void 		flood_fill(t_data *game, int x, int y, char **grid);
 
 // utils
@@ -57,5 +57,6 @@ void		init_struct(t_data *game);
 void		print_map(char **map, int height, int width);
 void		free_struct(t_data *game);
 char		**dup_grid(t_data *game);
+void		parse_error(t_data *game);
 
 #endif // SO_LONG.H

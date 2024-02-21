@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 10:44:21 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:17:20 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_map(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (0);
+		return (ft_printf("Error\nUnknown file.\n"), exit(0), 0);
 	return (fd);
 }
 
@@ -43,7 +43,7 @@ void	free_grid(char **grid, int height)
 	int	i;
 	
 	i = 0;
-	while (i < height - 1)
+	while (i < height)
 	{
 		free(grid[i]);
 		i++;
@@ -56,6 +56,7 @@ void	free_struct(t_data *game)
 	free_grid(game->grid, game->height);
 	free_grid(game->parse_grid, game->height);
 	free(game);
+	exit (0);
 }
 
 void	print_map(char **map, int height, int width)
