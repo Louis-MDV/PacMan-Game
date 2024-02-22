@@ -15,14 +15,19 @@
 int	main(int ac, char **av)
 {
 	t_data	*game;
+	void	*mlx;
+	void	*mlx_win;
 
 	if (ac != 2)
 	{
 		ft_printf("Error\nWrong number of arguments!\n");
 		return (0);
 	}
-	game = parse(av[1]);
-	printf("OK\n");
+	game = parse(av[1]); //if fails exits
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
+	if(mlx_win)
+		mlx_loop(mlx);
+
 	free_struct(game);
-	return (1);
 }

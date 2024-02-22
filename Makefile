@@ -14,7 +14,7 @@ NAME		= 	so_long
 
 CC 			= 	cc
 CFLAGS 		= 	-Wall -Wextra -Werror -g3
-MLXFLAGS	= 	-lX11 -lXext -Iminilibx-linux
+MLXFLAGS	= 	-L./minilibx-linux -lX11 -lXext -lXext -lmlx
 
 RED			= 	$(shell tput setaf 1)
 GREEN		= 	$(shell tput setaf 2)
@@ -58,7 +58,7 @@ $(MLX_LIB):
 	@echo "$(GREEN)[MLX Library]$(NC) copying to: $(YELLOW)$(NAME)$(NC)"
 
 $(NAME): $(LIBFT_LIB) $(MLX_LIB) $(OFILES)
-	@$(CC) $(OFILES) $(MLXFLAGS) $(MLX_LIB) $(LIBFT_LIB) -o $(NAME)
+	@$(CC) $(OFILES) $(MLX_LIB) $(MLXFLAGS) $(LIBFT_LIB) -o $(NAME) 
 	@echo "$(GREEN)[EXECUTABLE]$(NC) created successfully: $(YELLOW)$(NAME)$(NC)"
 
 clean:
