@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:33:21 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 19:14:23 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:57:52 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	main(int ac, char **av)
 {
 	t_data	*game;
-	void	*mlx;
-	void	*mlx_win;
 
 	if (ac != 2)
 	{
@@ -24,10 +22,6 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	game = parse(av[1]); //if fails exits
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
-	if(mlx_win)
-		mlx_loop(mlx);
-
+	open_game();
 	free_struct(game);
 }

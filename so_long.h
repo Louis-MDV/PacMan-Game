@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 19:10:31 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:29:49 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct s_data
+typedef struct	s_data
 {
 	int		fd;
 	int		posx_p;
@@ -30,14 +30,23 @@ typedef struct s_data
 	int		posy_e;
 	int		width;
 	int		height;
-	int		p; 		// player
-	int		e; 		// exit
-	int 	c;  	// collectible
-	int		c_flag; //collectibles collected
+	int		p; 			// player
+	int		e; 			// exit
+	int 	c;  		// collectible
+	int		c_flag; 	//collectibles collected
 	int 	exit_flag;
 	int		count_v;
 	char	**grid;
 	char	**parse_grid;
+}			t_data;
+
+typedef struct	w_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 }			t_data;
 
 // format check
@@ -50,6 +59,10 @@ void		check_closed(t_data *game);
 void		check_elements(t_data *game);
 t_data		*parse(char *filename);
 void 		flood_fill(t_data *game, int x, int y, char **grid);
+
+// MLX GAME
+void    	open_game();
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 // utils
 int			open_map(char *filename, t_data *game);

@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/09 13:53:31 by lmerveil          #+#    #+#              #
-#    Updated: 2024/02/21 15:21:24 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/23 16:03:20 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,14 @@ MLX_LIB		=	$(MLX_PATH)/$(MLX_FILE)
 
 SRCS		 = 	$(addsuffix .c,			\
 				$(addprefix srcs/, 		\
+					mlx_game			\
 				$(addprefix parsing_,	\
 					check_input			\
 					utils				\
 					init_map			\
 				))						\
 				main					\
-				)
+				)						\
 
 OFILES		= 	$(SRCS:.c=.o)
 
