@@ -6,34 +6,50 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:55:57 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/24 16:29:26 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:26:29 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void    open_game()
+void	init_mlx_struct(t_mlx	*mlx)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
+	mlx->grass = "xpm/grass.xpm";
+}
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+void	my_mlx_pixel_put(t_image *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	put_img_to_win(void *mlx, void *mlx_win, char *relative_path)
+{
+	t_image	img;
+	int		img_width;
+	int		img_height;
+	
+	img.img = mlx_xpm_file_to_image(mlx, relative_path, &img_width, &img_height);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
 }
 
-void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	render_map(t_mlx *mlx, t_data *game)
 {
-    char *dst;
-    
-    dst = data->addr +(y * data->line_length + x * (bits_per_pixel / 8));
-    *(unsigned int*)dst = color;--
+	int y = 0;
+	int x = 0;
+
+	while (y < game->height)
+	{
+		x = 0;
+		while (x < game->width)
+		{
+			if (game->grid[y][x] == 0)
+				put_img_to_win(mlx->mlx_ptr, mlx->win_ptr, mlx->grass);
+			x++;
+		}
+	y++;
+	}
 }
-
-
