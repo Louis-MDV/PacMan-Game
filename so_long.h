@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/27 10:36:31 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:38:18 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct img_s
 	char	*exit;
 }			t_imgs;
 
-typedef struct cnt_s
+typedef struct data_s
 {
 	int		fd;
 	int		posx_p;
@@ -49,18 +49,17 @@ typedef struct cnt_s
 	int		height;
 	int 	p;      // player
 	int 	e;      // exit
-	int 	c;      // collectible
+	int 	c_count;      // number collectibles
 	int 	c_flag; // collectibles collected
 	int		exit_flag;
-	int		count_v;
+	int		c_collected;
 	char	**grid;
 	char	**parse_grid;
 	void	*mlx_ptr;
 	void	*win_ptr;
+	int		keypress_num;
 	t_imgs	img;
 }			t_data;
-
-
 
 // format check
 void		check_fileformat(char *str, t_data *game);
@@ -70,13 +69,11 @@ char		**init_grid(char **grid, t_data *game);
 void		fillgrid(char *filename, t_data *game);
 void		check_closed(t_data *game);
 void		check_elements(t_data *game);
-t_data		*parse(char *filename);
+void		parse(char *filename, t_data *data);
 void		flood_fill(t_data *game, int x, int y, char **grid);
 
 // MLX GAME
 void		initiate_mlx(t_data *data);
-void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void		put_img_to_win(void *mlx, void *mlx_win, char *relative_path);
 int			handle_keypress(int keysym, t_data *data);
 int			handle_keyrelease(int keysym, void *data);
 int			handle_no_event(void *data);
@@ -84,6 +81,15 @@ void		render_map(t_data *data);
 
 // MLX utils
 void		set_img(t_data *data);
+void		free_img_data(t_data *data);
+
+//MLX mouvs
+void	handle_up(int keysym, t_data *data);
+void	handle_down(int keysym, t_data *data);
+void	handle_right(int keysym, t_data *data);
+void	handle_left(int keysym, t_data *data);
+
+
 // utils
 int			open_map(char *filename, t_data *game);
 void		free_grid(char **grid, int height);

@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/26 22:19:12 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:12:33 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,26 +121,26 @@ void	check_elements(t_data *data)
 				data->p++;
 			}
 			else if (data->grid[y][x] == 'C')
-				data->c++;
+				data->c_count++;
 			else if (data->grid[y][x] == 'E')
 				data->e++;
 		}
 	}
-	if (data->p != 1 || data->e != 1 || data->c <= 0)
+	if (data->p != 1 || data->e != 1 || data->c_count <= 0)
 		parse_error(data);
 }
 
 void	parse_error(t_data *data)
 {
-	if (data->p != 1 || data->e != 1 || data->c <= 0)
+	if (data->p != 1 || data->e != 1 || data->c_count <= 0)
 		ft_printf("Error\n");
 	if (data->p != 1)
 		ft_printf("Map has no player!\n");
 	if (data->e != 1)
 		ft_printf("Map has no exit!\n");
-	if (data->c == 0)
+	if (data->c_count == 0)
 		ft_printf("Map has no collectibles!");
-	if (data->p != 1 || data->e != 1 || data->c <= 0)
+	if (data->p != 1 || data->e != 1 || data->c_count <= 0)
 		free_struct(data);
 }
 
@@ -159,13 +159,8 @@ void	flood_fill(t_data *data, int x, int y, char **grid)
 	flood_fill(data, x, y + 1, grid);
 }
 
-t_data	*parse(char *filename)
+void	parse(char *filename, t_data *data)
 {
-	t_data	*data;
-
-	data = malloc(sizeof(t_data));
-	if (!data)
-		exit(0);
 	check_fileformat(filename, data);
 	init_struct(filename, data);
 	get_dimensions_check_empty(data);
@@ -174,12 +169,9 @@ t_data	*parse(char *filename)
 	check_closed(data);
 	check_elements(data);
 	flood_fill(data, data->posx_p, data->posy_p, data->parse_grid);
-	if (data->c_flag == data->c && data->exit_flag == 1)
-		return (data);
-	else
+	if (!(data->c_flag == data->c_count && data->exit_flag == 1))
 	{
 		ft_printf("Error\nNo feasibe path to collectibles and exit!\n");
 		free_struct(data);
 	}
-	return (data);
 }
