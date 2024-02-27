@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/09 13:53:31 by lmerveil          #+#    #+#              #
-#    Updated: 2024/02/26 12:29:19 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/26 20:20:32 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ MLX_LIB		=	$(MLX_PATH)/$(MLX_FILE)
 SRCS		 = 	$(addsuffix .c,			\
 				$(addprefix srcs/, 		\
 					mlx_game			\
+					set					\
 				$(addprefix parsing_,	\
 					check_input			\
 					utils				\

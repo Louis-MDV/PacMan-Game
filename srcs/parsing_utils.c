@@ -6,38 +6,23 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 18:49:44 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:19:38 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	open_map(char *filename, t_data *game)
+int	open_map(char *filename, t_data *data)
 {
 	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (ft_printf("Error\nUnknown file.\n"), free(game), exit(0), 0);
+		return (ft_printf("Error\nUnknown file.\n"), free(data), exit(0), 0);
 	return (fd);
 }
 
-void	init_struct(char *filename, t_data *game)
-{
-	game->fd		= open_map(filename, game);
-	game->width 	= 0;
-	game->height 	= 0;
-	game->p 		= 0;
-	game->e 		= 0;
-	game->c 		= 0;
-	game->posx_p 	= 0;
-	game->posy_p 	= 0;
-	game->posx_e 	= 0;
-	game->posy_e 	= 0;
-	game->exit_flag	= 0;
-	game->c_flag	= 0;
-	game->count_v	= 0;
-}
+
 
 void	free_grid(char **grid, int height)
 {
@@ -52,11 +37,11 @@ void	free_grid(char **grid, int height)
 	free(grid);
 }
 
-void	free_struct(t_data *game)
+void	free_struct(t_data *data)
 {
-	free_grid(game->grid, game->height);
-	free_grid(game->parse_grid, game->height);
-	free(game);
+	free_grid(data->grid, data->height);
+	free_grid(data->parse_grid, data->height);
+	free(data);
 	exit (0);
 }
 
@@ -80,16 +65,16 @@ void	print_map(char **map, int height, int width)
 	}
 }
 
-char	**dup_grid(t_data *game)
+char	**dup_grid(t_data *data)
 {
 	int		y;
 	char	**dup_grid;
 
 	y = 0;
 	dup_grid = NULL;
-	while (y < game->height)
+	while (y < data->height)
 	{
-		dup_grid[y] = ft_strdup(game->grid[y]);
+		dup_grid[y] = ft_strdup(data->grid[y]);
 		y++;
 	}
 	return (dup_grid);

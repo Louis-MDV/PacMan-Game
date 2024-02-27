@@ -6,52 +6,52 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/21 19:10:26 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:19:12 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	check_fileformat(char *filename, t_data *game)
+void	check_fileformat(char *filename, t_data *data)
 {
 	if (ft_strncmp(&filename[ft_strlen(filename) - 4], ".ber\0", 5) == 0)
 		return ;
 	else
 	{
 		ft_printf("Error\nWrong input format!\n");
-		free(game);
+		free(data);
 		exit(0);
 	}
 }
 
-void	get_dimensions_check_empty(t_data *game)
+void	get_dimensions_check_empty(t_data *data)
 {
 	char	*line;
 
-	game->height = 1;
-	line = get_next_line(game->fd);
+	data->height = 1;
+	line = get_next_line(data->fd);
 	if (!line || line[0] == '\n')
 	{
 		ft_printf("Error\nEmpty map!\n");
-		close(game->fd);
+		close(data->fd);
 		free(line);
-		free(game);
+		free(data);
 		exit(0);
 	}
-	game->width = ft_strlen(line) - 1;
+	data->width = ft_strlen(line) - 1;
 	free(line);
 	line = "";
 	while (line != NULL)
 	{
-		line = get_next_line(game->fd);
+		line = get_next_line(data->fd);
 		if (line != NULL)
-			game->height++;
+			data->height++;
 		free(line);
 	}
-	close(game->fd);
+	close(data->fd);
 }
 
-void	check_rectangular(char *filename, t_data *game)
+void	check_rectangular(char *filename, t_data *data)
 {
 	int		i;
 	int		fd;
@@ -59,8 +59,8 @@ void	check_rectangular(char *filename, t_data *game)
 	int		linewidth;
 
 	i = -1;
-	fd = open_map(filename, game);
-	while (++i < game->height)
+	fd = open_map(filename, data);
+	while (++i < data->height)
 	{
 		line = get_next_line(fd);
 		if (line[ft_strlen(line) - 1] == '\n')
@@ -68,118 +68,118 @@ void	check_rectangular(char *filename, t_data *game)
 		else
 			linewidth = ft_strlen(line);
 		free(line);
-		if (game->width != linewidth)
+		if (data->width != linewidth)
 		{
 			ft_printf("Error\nMap not rectangular!\n");
 			close(fd);
-			free(game);
+			free(data);
 			exit(0);
 		}
 	}
 	close(fd);
 }
 
-void	check_closed(t_data *game)
+void	check_closed(t_data *data)
 {
 	int		y;
 	int		x;
 
 	y = -1;
-	while (++y < game->height - 1)
+	while (++y < data->height - 1)
 	{
 		x = 0;
-		while (x < game->width - 1)
+		while (x < data->width - 1)
 		{
-			if ((game->grid[0][x] != '1' || game->grid[game->height - 1][x] != '1') 
-				|| (y != 0 && y != game->height - 1
-				&& game->grid[y][0] != '1' 
-				&& game->grid[y][game->width - 1] != '1'))
+			if ((data->grid[0][x] != '1' || data->grid[data->height - 1][x] != '1') 
+				|| (y != 0 && y != data->height - 1
+				&& data->grid[y][0] != '1' 
+				&& data->grid[y][data->width - 1] != '1'))
 			{
 				ft_printf("Error\nMap not closed!\n");
-				free_struct(game);
+				free_struct(data);
 			}
 			x++;
 		}
 	}
 }
 
-void	check_elements(t_data *game)
+void	check_elements(t_data *data)
 {
 	int	x;
 	int	y;
 
 	y = -1;
-	while (++y < game->height - 1)
+	while (++y < data->height - 1)
 	{
 		x = -1;
-		while (++x < game->width - 1)
+		while (++x < data->width - 1)
 		{
-			if (game->grid[y][x] == 'P')
+			if (data->grid[y][x] == 'P')
 			{
-				game->posx_p = x;
-				game->posy_p = y;
-				game->p++;
+				data->posx_p = x;
+				data->posy_p = y;
+				data->p++;
 			}
-			else if (game->grid[y][x] == 'C')
-				game->c++;
-			else if (game->grid[y][x] == 'E')
-				game->e++;
+			else if (data->grid[y][x] == 'C')
+				data->c++;
+			else if (data->grid[y][x] == 'E')
+				data->e++;
 		}
 	}
-	if (game->p != 1 || game->e != 1 || game->c <= 0)
-		parse_error(game);
+	if (data->p != 1 || data->e != 1 || data->c <= 0)
+		parse_error(data);
 }
 
-void	parse_error(t_data *game)
+void	parse_error(t_data *data)
 {
-	if (game->p != 1 || game->e != 1 || game->c <= 0)
+	if (data->p != 1 || data->e != 1 || data->c <= 0)
 		ft_printf("Error\n");
-	if (game->p != 1)
+	if (data->p != 1)
 		ft_printf("Map has no player!\n");
-	if (game->e != 1)
+	if (data->e != 1)
 		ft_printf("Map has no exit!\n");
-	if (game->c == 0)
+	if (data->c == 0)
 		ft_printf("Map has no collectibles!");
-	if (game->p != 1 || game->e != 1 || game->c <= 0)
-		free_struct(game);
+	if (data->p != 1 || data->e != 1 || data->c <= 0)
+		free_struct(data);
 }
 
-void	flood_fill(t_data *game, int x, int y, char **grid)
+void	flood_fill(t_data *data, int x, int y, char **grid)
 {
 	if (grid[y][x] == '1' || grid[y][x] == 'V')
 		return ;
 	if (grid[y][x] == 'C')
-		game->c_flag++;
+		data->c_flag++;
 	if (grid[y][x] == 'E')
-		game->exit_flag = 1;
+		data->exit_flag = 1;
 	grid[y][x] = 'V';
-	flood_fill(game, x - 1, y, grid);
-	flood_fill(game, x, y - 1, grid);
-	flood_fill(game, x + 1, y, grid);
-	flood_fill(game, x, y + 1, grid);
+	flood_fill(data, x - 1, y, grid);
+	flood_fill(data, x, y - 1, grid);
+	flood_fill(data, x + 1, y, grid);
+	flood_fill(data, x, y + 1, grid);
 }
 
 t_data	*parse(char *filename)
 {
-	t_data	*game;
+	t_data	*data;
 
-	game = malloc(sizeof(t_data));
-	if (!game)
+	data = malloc(sizeof(t_data));
+	if (!data)
 		exit(0);
-	check_fileformat(filename, game);
-	init_struct(filename, game);
-	get_dimensions_check_empty(game);
-	check_rectangular(filename, game);
-	fillgrid(filename, game);
-	check_closed(game);
-	check_elements(game);
-	flood_fill(game, game->posx_p, game->posy_p, game->parse_grid);
-	if (game->c_flag == game->c && game->exit_flag == 1)
-		return (game);
+	check_fileformat(filename, data);
+	init_struct(filename, data);
+	get_dimensions_check_empty(data);
+	check_rectangular(filename, data);
+	fillgrid(filename, data);
+	check_closed(data);
+	check_elements(data);
+	flood_fill(data, data->posx_p, data->posy_p, data->parse_grid);
+	if (data->c_flag == data->c && data->exit_flag == 1)
+		return (data);
 	else
 	{
 		ft_printf("Error\nNo feasibe path to collectibles and exit!\n");
-		free_struct(game);
+		free_struct(data);
 	}
-	return (game);
+	return (data);
 }

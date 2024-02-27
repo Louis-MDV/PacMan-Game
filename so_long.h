@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/26 16:25:40 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:53:18 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,23 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct s_data
+typedef struct img_s
+{
+	int		height;
+	int		width;
+	void	*img_player;
+	void	*img_exit;
+	void	*img_wall;
+	void	*img_path;
+	void	*img_collect;
+	char	*player;
+	char	*path;
+	char	*wall;
+	char	*collect;
+	char	*exit;
+}			t_imgs;
+
+typedef struct cnt_s
 {
 	int		fd;
 	int		posx_p;
@@ -39,24 +55,20 @@ typedef struct s_data
 	int		count_v;
 	char	**grid;
 	char	**parse_grid;
-}			t_data;
-
-typedef struct s_mlx
-{
 	void	*mlx_ptr;
 	void	*win_ptr;
-	char 	*grass;
-}			t_mlx;
+	t_imgs	img;
+}			t_data;
 
 // struct for creating an image
-typedef struct s_image
-{
-	void 	*img; /*refers to the address mlx_new_image returns*/
-	char	*addr;
-	int 	bpp; /* bits per pixel */
-	int		line_len;
-	int		endian;
-}			t_image;
+// typedef struct s_image
+// {
+// 	void 	*img; 		/*refers to the address mlx_new_image returns*/
+// 	char	*addr;
+// 	int 	bpp; 		/* bits per pixel */
+// 	int		line_len;
+// 	int		endian;
+// }			t_image;
 
 // format check
 void		check_fileformat(char *str, t_data *game);
@@ -70,16 +82,16 @@ t_data		*parse(char *filename);
 void		flood_fill(t_data *game, int x, int y, char **grid);
 
 // MLX GAME
-void		my_mlx_pixel_put(t_image *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		put_img_to_win(void *mlx, void *mlx_win, char *relative_path);
-int			handle_keypress(int keysym, t_mlx *data);
+int			handle_keypress(int keysym, t_data *data);
 int			handle_keyrelease(int keysym, void *data);
 int			handle_no_event(void *data);
-void		render_map(t_mlx *mlx, t_data *game);
+void		render_map(t_data *data);
 
 // MLX utils
-void	init_mlx_struct(t_mlx	*mlx);
-
+void		init_mlx_struct(t_data	*mlx);
+void		set_img(t_data *data);
 // utils
 int			open_map(char *filename, t_data *game);
 void		free_grid(char **grid, int height);
