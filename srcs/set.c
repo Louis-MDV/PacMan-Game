@@ -6,11 +6,25 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 19:04:55 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/27 00:21:44 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:37:09 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
+
+void	initiate_mlx(t_data *data)
+{
+	data->mlx_ptr = mlx_init();
+	if (data->mlx_ptr == NULL)
+		return ;
+	set_img(data);
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->width * data->img.width, data->height * data->img.height, "PAC-MAN 3.1");
+	if (data->win_ptr == NULL)
+	{
+		free(data->win_ptr);
+		return ;
+	}
+}
 
 void	init_struct(char *filename, t_data *data)
 {

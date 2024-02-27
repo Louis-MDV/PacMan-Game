@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:20:18 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/26 22:19:38 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:59:48 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	free_struct(t_data *data)
 {
 	free_grid(data->grid, data->height);
 	free_grid(data->parse_grid, data->height);
+	free(data->mlx_ptr);
 	free(data);
 	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/26 22:53:18 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:36:31 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,7 @@ typedef struct cnt_s
 	t_imgs	img;
 }			t_data;
 
-// struct for creating an image
-// typedef struct s_image
-// {
-// 	void 	*img; 		/*refers to the address mlx_new_image returns*/
-// 	char	*addr;
-// 	int 	bpp; 		/* bits per pixel */
-// 	int		line_len;
-// 	int		endian;
-// }			t_image;
+
 
 // format check
 void		check_fileformat(char *str, t_data *game);
@@ -82,6 +74,7 @@ t_data		*parse(char *filename);
 void		flood_fill(t_data *game, int x, int y, char **grid);
 
 // MLX GAME
+void		initiate_mlx(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		put_img_to_win(void *mlx, void *mlx_win, char *relative_path);
 int			handle_keypress(int keysym, t_data *data);
@@ -90,7 +83,6 @@ int			handle_no_event(void *data);
 void		render_map(t_data *data);
 
 // MLX utils
-void		init_mlx_struct(t_data	*mlx);
 void		set_img(t_data *data);
 // utils
 int			open_map(char *filename, t_data *game);
