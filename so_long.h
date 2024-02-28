@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/27 18:38:18 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:04:19 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,34 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+#define BLUE    "\x1b[34m"
+#define RESET   "\x1b[0m"
+#define ORANGE  "\x1b[38;5;208m"
+
 typedef struct img_s
 {
 	int		height;
 	int		width;
-	void	*img_player;
+	void	*img_player_up;
+	void	*img_player_down;
+	void	*img_player_right;
+	void	*img_player_left;
+	void	*img_player_closed;
+
 	void	*img_exit;
 	void	*img_wall;
 	void	*img_path;
 	void	*img_collect;
-	char	*player;
+	
+	char	*player_up;
+	char	*player_down;
+	char	*player_right;
+	char	*player_left;
+	char	*player_closed;
+
 	char	*path;
 	char	*wall;
 	char	*collect;
@@ -58,6 +76,7 @@ typedef struct data_s
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		keypress_num;
+	int		keypress_flag;	
 	t_imgs	img;
 }			t_data;
 
@@ -83,11 +102,13 @@ void		render_map(t_data *data);
 void		set_img(t_data *data);
 void		free_img_data(t_data *data);
 
-//MLX mouvs
+//MLX keystrokes
 void	handle_up(int keysym, t_data *data);
 void	handle_down(int keysym, t_data *data);
 void	handle_right(int keysym, t_data *data);
 void	handle_left(int keysym, t_data *data);
+void	handle_esc_all_collected(int keysym, t_data *data);
+int		animation_loop(t_data *data);
 
 
 // utils

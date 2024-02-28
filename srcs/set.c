@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 19:04:55 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/27 19:12:07 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:15:50 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,28 +43,41 @@ void	init_struct(char *filename, t_data *data)
 	data->c_count		= 0;
 	data->c_collected	= 0;
 	data->keypress_num	= 0;
+	data->keypress_flag = 0;
 }
 
 void	set_img(t_data *data)
 {
-	data->img.height 		= 50;
-	data->img.width 		= 50;
-	data->img.wall 			= "./xpm/wall50.xpm";
-	data->img.path 			= "./xpm/path50.xpm";
-	data->img.collect		= "./xpm/collect50.xpm";
-	data->img.player 		= "./xpm/player50.xpm";
-	data->img.exit 			= "./xpm/exit50.xpm";
-	data->img.img_wall 		= mlx_xpm_file_to_image(data->mlx_ptr, data->img.wall, &(data->img.width), &(data->img.height));
-	data->img.img_path 		= mlx_xpm_file_to_image(data->mlx_ptr, data->img.path, &(data->img.width), &(data->img.height));
-	data->img.img_collect	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.collect, &(data->img.width), &(data->img.height));
-	data->img.img_player	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player, &(data->img.width), &(data->img.height));
-	data->img.img_exit 		= mlx_xpm_file_to_image(data->mlx_ptr, data->img.exit, &(data->img.width), &(data->img.height));
+	data->img.height 			= 50;
+	data->img.width 			= 50;
+	data->img.wall 				= "./xpm/wall50.xpm";
+	data->img.path 				= "./xpm/path50.xpm";
+	data->img.collect			= "./xpm/collect50.xpm";
+	data->img.player_left 		= "./xpm/pacmanleft.xpm";
+	data->img.player_right 		= "./xpm/pacmanright.xpm";
+	data->img.player_up 		= "./xpm/pacmanup.xpm";
+	data->img.player_down		= "./xpm/pacmandown.xpm";
+	data->img.exit 				= "./xpm/exit50.xpm";
+	data->img.player_closed		= "./xpm/pacmanclosed.xpm";
+	data->img.img_wall 			= mlx_xpm_file_to_image(data->mlx_ptr, data->img.wall, &(data->img.width), &(data->img.height));
+	data->img.img_path 			= mlx_xpm_file_to_image(data->mlx_ptr, data->img.path, &(data->img.width), &(data->img.height));
+	data->img.img_collect		= mlx_xpm_file_to_image(data->mlx_ptr, data->img.collect, &(data->img.width), &(data->img.height));
+	data->img.img_player_left	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_left, &(data->img.width), &(data->img.height));
+	data->img.img_player_right	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_right, &(data->img.width), &(data->img.height));
+	data->img.img_player_up		= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_up, &(data->img.width), &(data->img.height));
+	data->img.img_player_down	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_down, &(data->img.width), &(data->img.height));
+	data->img.img_player_closed	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_closed, &(data->img.width), &(data->img.height));
+	data->img.img_exit 			= mlx_xpm_file_to_image(data->mlx_ptr, data->img.exit, &(data->img.width), &(data->img.height));
 }
 void	free_img_data(t_data *data)
 {
 	mlx_destroy_image (data->mlx_ptr, data->img.img_wall);
 	mlx_destroy_image (data->mlx_ptr, data->img.img_path);
 	mlx_destroy_image (data->mlx_ptr, data->img.img_collect);
-	mlx_destroy_image (data->mlx_ptr, data->img.img_player);
+	mlx_destroy_image (data->mlx_ptr, data->img.img_player_down);
+	mlx_destroy_image (data->mlx_ptr, data->img.img_player_up);
+	mlx_destroy_image (data->mlx_ptr, data->img.img_player_right);
+	mlx_destroy_image (data->mlx_ptr, data->img.img_player_left);
+	mlx_destroy_image (data->mlx_ptr, data->img.img_player_closed);
 	mlx_destroy_image (data->mlx_ptr, data->img.img_exit);
 }
