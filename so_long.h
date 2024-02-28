@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:40:40 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/28 00:04:19 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:21:04 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct img_s
 	char	*player_right;
 	char	*player_left;
 	char	*player_closed;
-
+	
 	char	*path;
 	char	*wall;
 	char	*collect;
@@ -96,20 +96,20 @@ void		initiate_mlx(t_data *data);
 int			handle_keypress(int keysym, t_data *data);
 int			handle_keyrelease(int keysym, void *data);
 int			handle_no_event(void *data);
-void		render_map(t_data *data);
+int		render_map(t_data *data);
 
 // MLX utils
 void		set_img(t_data *data);
 void		free_img_data(t_data *data);
 
 //MLX keystrokes
-void	handle_up(int keysym, t_data *data);
-void	handle_down(int keysym, t_data *data);
-void	handle_right(int keysym, t_data *data);
-void	handle_left(int keysym, t_data *data);
-void	handle_esc_all_collected(int keysym, t_data *data);
-int		animation_loop(t_data *data);
-
+void		handle_up(int keysym, t_data *data);
+void		handle_down(int keysym, t_data *data);
+void		handle_right(int keysym, t_data *data);
+void		handle_left(int keysym, t_data *data);
+void		handle_esc_all_collected(int keysym, t_data *data);
+int			animation_loop(t_data *data);
+int 		close_window(t_data *data);
 
 // utils
 int			open_map(char *filename, t_data *game);

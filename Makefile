@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/09 13:53:31 by lmerveil          #+#    #+#              #
-#    Updated: 2024/02/28 00:02:20 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/28 17:19:42 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,19 +29,27 @@ MLX_PATH	=	./minilibx-linux
 MLX_FILE	= 	libmlx.a
 MLX_LIB		=	$(MLX_PATH)/$(MLX_FILE)
 
-SRCS		 = 	$(addsuffix .c,			\
-				$(addprefix srcs/, 		\
-					mlx_game			\
-					set					\
-				$(addprefix parsing_,	\
-					check_input			\
-					utils				\
-					init_map			\
-				))						\
-				main					\
-				)						\
+SRCS		 = 	$(addsuffix .c,						\
+				$(addprefix srcs/, 					\
+					mlx_game						\
+					set								\
+				$(addprefix parsing_,				\
+					check_input						\
+					utils							\
+					init_map						\
+				))									\
+				main								\
+				)									\
+
+# BONUS		 = 	$(addsuffix _bonus.c,				\
+# 				$(addprefix , 	\
+# 					mlx_game						\
+# 					set								\
+# 				)									\
+# 				)									\
 
 OFILES		= 	$(SRCS:.c=.o)
+BOBJ 		= 	$(BONUS:.c=.o)
 
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o $@ 
@@ -63,14 +71,17 @@ $(NAME): $(LIBFT_LIB) $(MLX_LIB) $(OFILES)
 	@$(CC) $(OFILES) $(MLX_LIB) $(MLXFLAGS) $(LIBFT_LIB) -o $(NAME) 
 	@echo "$(GREEN)[EXECUTABLE]$(NC) created successfully: $(YELLOW)$(NAME)$(NC)"
 
+# bonus: $(BOBJ) $(OFILES) $(LIBFT_LIB) $(MLX_LIB)
+# 	@$(CC) $(BOBJ) $(OFILES) $(MLX_LIB) $(MLXFLAGS) $(LIBFT_LIB) -o $(NAME)
+	
 clean:
 	@make clean -sC $(LIBFT_PATH)
 	@make clean -sC $(MLX_PATH)
-	@rm -f $(OFILES)
+	@rm -f $(OFILES) $(BOBJ)
 	@echo "$(RED)[clean]$(NC) deleting OFILES: $(YELLOW)$(OFILES)$(NC)"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(BOBJ)
 	@make fclean -C $(LIBFT_PATH)
 	@echo "$(RED)[fclean]$(NC) deleting library: $(YELLOW)$(NAME)$(NC)"
 

@@ -6,7 +6,7 @@
 #    By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/14 11:33:24 by louismdv          #+#    #+#              #
-#    Updated: 2024/02/19 20:38:02 by lmerveil         ###   ########.fr        #
+#    Updated: 2024/02/28 16:28:44 by lmerveil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,15 +57,15 @@ SOURCES = ft_atoi.c					\
 # Convertit les noms de fichiers .c en .o
 OBJ = $(SOURCES:.c=.o)
 
-BONUS = ft_lstnew.c\
-		ft_lstsize.c\
-		ft_lstadd_front.c\
-		ft_lstlast.c\
-		ft_lstadd_back.c\
-		ft_lstiter.c\
-		ft_lstclear.c\
-		ft_lstdelone.c\
-		ft_lstmap.c\
+BONUS = ft_lstnew.c					\
+		ft_lstsize.c				\
+		ft_lstadd_front.c			\
+		ft_lstlast.c				\
+		ft_lstadd_back.c			\
+		ft_lstiter.c				\
+		ft_lstclear.c				\
+		ft_lstdelone.c				\
+		ft_lstmap.c					\
 
 BOBJ = $(BONUS:.c=.o)
 

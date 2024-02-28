@@ -6,13 +6,13 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:55:57 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/28 00:06:54 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:22:59 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	render_map(t_data *data)
+int	render_map(t_data *data)
 {
 	int	y;
 	int	x;
@@ -30,8 +30,16 @@ void	render_map(t_data *data)
 				mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 					data->img.img_path, data->img.width * x, data->img.height * y);
 			if (data->grid[y][x] == 'P')
-				mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-					data->img.img_player_left, data->img.width * x, data->img.height * y);
+			{
+				if (data->keypress_flag == 1)
+					mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_up, data->img.width * x, data->img.height * y);
+				else if (data->keypress_flag == 2)
+					mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_down, data->img.width * x, data->img.height * y);
+				else if (data->keypress_flag == 3)
+					mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_right, data->img.width * x, data->img.height * y);
+				else if (data->keypress_flag == 4)
+					mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_left, data->img.width * x, data->img.height * y);
+			}
 			if (data->grid[y][x] == 'C')
 				mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 					data->img.img_collect, data->img.width * x, data->img.height * y);
@@ -41,6 +49,7 @@ void	render_map(t_data *data)
 			x++;
 		}
 	}
+	return(0);
 }
 
 int	handle_keypress(int keysym, t_data *data)
@@ -54,6 +63,7 @@ int	handle_keypress(int keysym, t_data *data)
 	if (data->grid[data->posy_p][data->posx_p] == 'C' && data->c_collected < data->c_count)
 	{
 		data->c_collected++;
+		data->grid[data->posy_p][data->posx_p] = '0';
 		ft_printf(GREEN"+1 collectible!\n"RESET);
 	}
 	if(keysym == XK_w || keysym == XK_a ||keysym == XK_s || keysym == XK_d)
@@ -86,7 +96,7 @@ void	handle_up(int keysym, t_data *data)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_path, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 		data->posy_p--;
 		data->keypress_flag = 1;
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_up, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
+		// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_up, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 	}
 }
 
@@ -101,7 +111,7 @@ void	handle_down(int keysym, t_data *data)
         mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_path, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
         data->posy_p++;
 		data->keypress_flag = 2;
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_down, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
+		// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_down, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
     }
 }
 
@@ -116,7 +126,7 @@ void	handle_right(int keysym, t_data *data)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_path, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 		data->posx_p++;
 		data->keypress_flag = 3;
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_right, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
+		// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_right, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 	}
 }
 
@@ -131,7 +141,7 @@ void	handle_left(int keysym, t_data *data)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_path, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 		data->posx_p--;
 		data->keypress_flag = 4;
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_left, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
+		// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_player_left, data->img.height * (data->posx_p), data->img.height * (data->posy_p));
 	}
 }
 

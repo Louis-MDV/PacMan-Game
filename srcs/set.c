@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 19:04:55 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/27 23:15:50 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:07:05 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	set_img(t_data *data)
 	data->img.img_player_down	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_down, &(data->img.width), &(data->img.height));
 	data->img.img_player_closed	= mlx_xpm_file_to_image(data->mlx_ptr, data->img.player_closed, &(data->img.width), &(data->img.height));
 	data->img.img_exit 			= mlx_xpm_file_to_image(data->mlx_ptr, data->img.exit, &(data->img.width), &(data->img.height));
+
 }
 void	free_img_data(t_data *data)
 {
