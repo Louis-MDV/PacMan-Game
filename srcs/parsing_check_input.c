@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:45 by lmerveil          #+#    #+#             */
-/*   Updated: 2024/02/28 16:07:50 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/03/06 03:19:47 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ void	check_elements(t_data *data)
 				data->posy_p = y;
 				data->p++;
 			}
+			if (data->grid[y][x] == 'B' || data->grid[y][x] == 'Y' || data->grid[y][x] == 'R' || data->grid[y][x] == 'K')
+				data->enemy_count++; //getting number of enemies
 			else if (data->grid[y][x] == 'C')
 				data->c_count++;
 			else if (data->grid[y][x] == 'E')
@@ -128,6 +130,7 @@ void	check_elements(t_data *data)
 	}
 	if (data->p != 1 || data->e != 1 || data->c_count <= 0)
 		parse_error(data);
+	// printf("num enemies: %d\n", data->enemy_count);
 }
 
 void	parse_error(t_data *data)
@@ -168,6 +171,9 @@ void	parse(char *filename, t_data *data)
 	fillgrid(filename, data);
 	check_closed(data);
 	check_elements(data);
+	data->tab_enemy = malloc(data->enemy_count * sizeof(t_enemy));
+	if (!data->tab_enemy)
+		free_struct(data);
 	flood_fill(data, data->posx_p, data->posy_p, data->parse_grid);
 	if (!(data->c_flag == data->c_count && data->exit_flag == 1))
 	{
