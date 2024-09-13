@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:13:57 by louismdv          #+#    #+#             */
-/*   Updated: 2024/02/14 17:23:43 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:34:34 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_next_line(int fd)
 	}
 	else
 		stash = NULL;
-	while ((ft_strchr2(buff, '\n')) == 0 && read_ptr != 0)
+	while ((ft_strchr(buff, '\n')) == 0 && read_ptr != 0)
 	{
 		read_ptr = read(fd, buff, BUFFER_SIZE);
 		if (read_ptr == -1)
@@ -55,14 +55,11 @@ char	*extract_line(char *stash, ssize_t read_ptr, char *buff)
 		if (stash[i] == '\n')
 			i++;
 		line = (char *)malloc(sizeof(char) * (i + 1));
-		if (!line)
-		{
-			free(line);
+		if (null_line(line) == 0)
 			return (NULL);
-		}
-		ft_strlcpy2(line, stash, i + 1);
-		if (ft_strchr2(buff, '\n') != 0)
-			ft_strcpy2(buff, ft_strchr2(buff, '\n') + 1);
+		ft_strlcpy(line, stash, i + 1);
+		if (ft_strchr(buff, '\n') != 0)
+			ft_strcpy2(buff, ft_strchr(buff, '\n') + 1);
 		free(stash);
 		return (line);
 	}
@@ -74,38 +71,12 @@ char	*extract_line(char *stash, ssize_t read_ptr, char *buff)
 	return (stash);
 }
 
-char	*ft_strchr2(const char *s, int c)
+int	null_line(char *line)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i])
+	if (!line)
 	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i++;
+		free(line);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
-
-// #include <fcntl.h>
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
-
-// 	fd = open("text.txt", O_RDONLY);
-// 	while ((str = get_next_line(fd)))
-// 	{
-// 		printf("%s", str);
-// 		free(str);
-// 	}
-// 	str = get_next_line(fd);
-// 	printf("%s\n", str);
-// 	close(fd);
-// 	free(str);
-// }

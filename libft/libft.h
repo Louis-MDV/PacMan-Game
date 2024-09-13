@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:33:30 by louismdv          #+#    #+#             */
-/*   Updated: 2024/02/19 20:39:34 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:34:59 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 // GNL
 char				*get_next_line(int fd);
-char				*ft_strchr2(const char *s, int c);
+int					null_line(char *line);
 char				*ft_strdup2(char *str);
 size_t				ft_strlen2(const char *str);
 size_t				ft_strlcpy2(char *dst, const char *src, size_t size);
@@ -96,7 +96,8 @@ char				*extract_line(char *stash, ssize_t read_ptr, char *buff);
 int					ft_printf(const char *format, ...);
 int					print_s(const char *str);
 int					print_c(const char c);
-int					print_xx(unsigned long nb, const char format, int numdigits);
+int					print_xx(unsigned long nb, const char format,
+						int numdigits);
 int					print_id(int nb);
 int					print_u(unsigned int n);
 int					print_p(long int *ptr);

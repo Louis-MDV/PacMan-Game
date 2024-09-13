@@ -6,7 +6,7 @@
 /*   By: lmerveil <lmerveil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 15:34:38 by lmerveil          #+#    #+#             */
-/*   Updated: 2023/11/23 11:36:09 by lmerveil         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:31:37 by lmerveil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;
-	int	srclen;
 
 	i = 0;
-	srclen = ft_strlen(s);
-	while (i <= srclen)
+	if (s == NULL)
+		return (0);
+	while (s[i])
 	{
 		if (s[i] == (char)c)
 			return ((char *)(s + i));
